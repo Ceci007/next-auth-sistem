@@ -28,6 +28,9 @@ import { useRouter } from "next/navigation"
 import { Loader2 } from "lucide-react"
 import Image from 'next/image'
 
+import { createAuthClient } from "better-auth/client";
+
+const authClient = createAuthClient();
  
 const formSchema = z.object({
   email: z.string().email(),
@@ -48,6 +51,13 @@ export function LoginForm({
       password: ""
     },
   })
+
+  const signInWithGoogle = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/dashboard"
+    });
+  };
  
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
@@ -76,7 +86,7 @@ export function LoginForm({
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="grid gap-6">
               <div className="flex flex-col gap-4">
-                <Button variant="outline" className="w-full">
+                <Button type="button" variant="outline" className="w-full" onClick={signInWithGoogle}>
                   <Image 
                     src="/google-color.svg"
                     width={20}
