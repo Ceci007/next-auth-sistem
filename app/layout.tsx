@@ -28,7 +28,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Toaster />
+        <Toaster 
+          toastOptions={{
+            unstyled: true,
+            classNames: {
+              error: 'text-red-400 border-l-4 border-l-red-400 bg-white flex items-center justify-start rounded-md py-3 px-7 gap-1',
+              success: 'text-green-400 border-l-4 border-l-green-400 bg-white flex items-center justify-start rounded-md py-3 px-7 gap-1',
+              warning: 'text-yellow-400 border-l-4 border-l-yellow-400 bg-white flex items-center justify-start rounded-md py-3 px-7 gap-1',
+              info: 'text-blue-400 border-l-4 border-l-blue-400 bg-white flex items-center justify-start rounded-md py-3 px-7 gap-1',
+            },
+          }}
+        />
         <main>
         {children}
         </main>

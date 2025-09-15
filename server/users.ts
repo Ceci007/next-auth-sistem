@@ -20,7 +20,7 @@ export const signIn = async (email: string, password: string) => {
 
     return {
       success: false,
-      message: { error: e?.message || "An unknown error ocurred" }
+      message: e?.message || "An unknown error ocurred" 
     }
   }
 }
