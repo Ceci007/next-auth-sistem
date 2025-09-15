@@ -10,9 +10,18 @@ export const signIn = async (email: string, password: string) => {
         password,
       }
     })
-    console.log("User Signed In");
+    
+    return {
+      success: true,
+      message: "Signed In successfully"
+    }
   } catch(error) {
-    throw error;
+    const e = error as Error;
+
+    return {
+      success: false,
+      message: { error: e?.message || "An unknown error ocurred" }
+    }
   }
 }
 

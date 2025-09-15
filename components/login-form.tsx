@@ -22,6 +22,8 @@ import {
 } from "@/components/ui/form"
 import { signIn } from "@/server/users"
 import { z } from "zod"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
  
 const formSchema = z.object({
   email: z.string().email(),
@@ -32,6 +34,8 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,8 +44,15 @@ export function LoginForm({
     },
   })
  
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    signIn(values.email, values.password);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const {success, message } = await signIn(values.email, values.password);
+
+    if(success) {
+      toast.success(message as string);
+      router.push("/dashboard")
+    } else {
+      toast.error(message as string);
+    }
   }
 
   return (
