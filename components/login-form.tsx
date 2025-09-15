@@ -1,3 +1,7 @@
+"use client"
+
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -8,12 +12,38 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import { signIn } from "@/server/users"
+import { z } from "zod"
+ 
+const formSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8, { message: "Password must be at least 8 characters long." })
+})
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: ""
+    },
+  })
+ 
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    signIn(values.email, values.password);
+  }
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -24,7 +54,8 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+        <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="grid gap-6">
               <div className="flex flex-col gap-4">
                 <Button variant="outline" className="w-full">
@@ -53,25 +84,44 @@ export function LoginForm({
               </div>
               <div className="grid gap-6">
                 <div className="grid gap-3">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="m@example.com"
-                    required
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input type="text" placeholder="superunicorns@gmail.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
                 </div>
                 <div className="grid gap-3">
-                  <div className="flex items-center">
-                    <Label htmlFor="password">Password</Label>
-                    <a
-                      href="#"
-                      className="ml-auto text-sm underline-offset-4 hover:underline"
-                    >
-                      Forgot your password?
-                    </a>
+                  <div className="w-full">
+                    <FormField
+                      control={form.control}
+                      name="password"
+                      render={({ field }) => (
+                        <FormItem>
+                          <div className="w-full flex justify-between items-center">
+                            <FormLabel>Password</FormLabel>
+                            <a
+                              href="#"
+                              className="ml-auto text-sm underline-offset-4 hover:underline"
+                            >
+                              Forgot your password?
+                            </a>
+                          </div>
+                          <FormControl>
+                            <Input type="password" placeholder="Enter your password" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                   </div>
-                  <Input id="password" type="password" required />
                 </div>
                 <Button type="submit" className="w-full">
                   Login
@@ -84,7 +134,8 @@ export function LoginForm({
                 </a>
               </div>
             </div>
-          </form>
+          </form>   
+        </Form> 
         </CardContent>
       </Card>
       <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
