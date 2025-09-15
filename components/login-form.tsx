@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { cn } from "@/lib/utils"
@@ -24,6 +25,8 @@ import { signIn } from "@/server/users"
 import { z } from "zod"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
+import { Loader2 } from "lucide-react"
+
  
 const formSchema = z.object({
   email: z.string().email(),
@@ -34,6 +37,7 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -45,6 +49,7 @@ export function LoginForm({
   })
  
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
     const {success, message } = await signIn(values.email, values.password);
 
     if(success) {
@@ -53,6 +58,7 @@ export function LoginForm({
     } else {
       toast.error(message as string);
     }
+    setIsLoading(false);
   }
 
   return (
@@ -134,8 +140,8 @@ export function LoginForm({
                     />
                   </div>
                 </div>
-                <Button type="submit" className="w-full">
-                  Login
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? <Loader2 className="size-4 animate-spin" /> : "Login"}
                 </Button>
               </div>
               <div className="text-center text-sm">
