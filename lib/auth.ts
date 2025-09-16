@@ -1,30 +1,28 @@
 import { db } from "@/db/drizzle";
 import { schema } from "@/db/schema";
 
-// import OrganizationInvitationEmail from "@/components/emails/organization-invitation";
-// import ForgotPasswordEmail from "@/components/emails/reset-password";
-// import VerifyEmail from "@/components/emails/verify-email";
+import OrganizationInvitationEmail from "@/components/emails/organization-invitation";
+import ForgotPasswordEmail from "@/components/emails/reset-password";
+import VerifyEmail from "@/components/emails/verify-email";
 import { getActiveOrganization } from "@/server/organizations";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import { organization } from "better-auth/plugins";
-// import { Resend } from "resend";
+import { Resend } from "resend"; 
 import { admin, member, owner } from "./auth/permissions";
 
-// const resend = new Resend(process.env.RESEND_API_KEY as string);
+const resend = new Resend(process.env.RESEND_API_KEY as string);
 
 export const auth = betterAuth({
     emailVerification: {
         sendVerificationEmail: async ({ user, url }) => {
-            /*
             resend.emails.send({
                 from: `${process.env.EMAIL_SENDER_NAME} <${process.env.EMAIL_SENDER_ADDRESS}>`,
                 to: user.email,
                 subject: "Verify your email",
                 react: VerifyEmail({ username: user.name, verifyUrl: url }),
             });
-            */
         },
         sendOnSignUp: true,
     },
@@ -36,7 +34,6 @@ export const auth = betterAuth({
     },
     emailAndPassword: {
         enabled: true,
-        /*
         sendResetPassword: async ({ user, url }) => {
             resend.emails.send({
                 from: `${process.env.EMAIL_SENDER_NAME} <${process.env.EMAIL_SENDER_ADDRESS}>`,
@@ -45,7 +42,6 @@ export const auth = betterAuth({
                 react: ForgotPasswordEmail({ username: user.name, resetUrl: url, userEmail: user.email }),
             });
         },
-        */
         requireEmailVerification: true
     },
     databaseHooks: {
@@ -69,10 +65,8 @@ export const auth = betterAuth({
     }),
     plugins: [organization({
         async sendInvitationEmail(data) {
-            /*
             const inviteLink = `${process.env.NEXT_PUBLIC_APP_URL}/api/accept-invitation/${data.id}`
 
-            
             resend.emails.send({
                 from: `${process.env.EMAIL_SENDER_NAME} <${process.env.EMAIL_SENDER_ADDRESS}>`,
                 to: data.email,
@@ -85,7 +79,6 @@ export const auth = betterAuth({
                     inviteLink
                 })
             })
-            */
         },
         roles: {
             owner,

@@ -68,7 +68,7 @@ export function SignupForm({
 
     if(success) {
       toast.success(message as string);
-      router.push("/dashboard")
+      router.push("/login")
     } else {
       toast.error(message as string);
     }
@@ -144,12 +144,12 @@ export function SignupForm({
                         <FormItem>
                           <div className="w-full flex justify-between items-center">
                             <FormLabel>Password</FormLabel>
-                            <a
-                              href="#"
+                            <Link 
+                              href="/forgot-password"
                               className="ml-auto text-sm underline-offset-4 hover:underline"
                             >
                               Forgot your password?
-                            </a>
+                            </Link>
                           </div>
                           <FormControl>
                             <Input type="password" placeholder="Enter your password" {...field} />
