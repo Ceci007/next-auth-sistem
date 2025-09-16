@@ -65,7 +65,7 @@ export const signUp = async (email: string, password: string, username: string) 
 
         return {
             success: true,
-            message: "Sign up successfully. Now please Login with same email and password"
+            message: "Sign up successfully. Now please verify your email"
         }
     } catch (error) {
         const e = error as Error
