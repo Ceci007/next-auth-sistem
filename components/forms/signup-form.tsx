@@ -146,7 +146,7 @@ export function SignupForm({
                             <FormLabel>Password</FormLabel>
                             <Link 
                               href="/forgot-password"
-                              className="ml-auto text-sm underline-offset-4 hover:underline"
+                              className="ml-auto text-sm underline-offset-4 hover:underline text-blue-600 hover:text-blue-400 transition-all duration-500"
                             >
                               Forgot your password?
                             </Link>
@@ -164,17 +164,18 @@ export function SignupForm({
                   {isLoading ? <Loader2 className="size-4 animate-spin" /> : "Sign Up"}
                 </Button>
               </div>
-              <div className="text-center text-sm">
-                Already have an account?{" "}
-                <Link href="/login" className="underline underline-offset-4">
-                  Login
-                </Link>
-              </div>
             </div>
           </form>   
         </Form> 
         </CardContent>
       </Card>
+      <div className="text-center text-sm">
+        Already have an account?{" "}
+        <Link href="/login"   className="ml-4 text-sm underline-offset-4 hover:underline text-blue-600 hover:text-blue-400 transition-all duration-500">
+          Login
+        </Link>
+      </div>
+
       <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
         By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
         and <a href="#">Privacy Policy</a>.

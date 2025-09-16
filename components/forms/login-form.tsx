@@ -79,7 +79,7 @@ export function LoginForm({
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Welcome back</CardTitle>
           <CardDescription>
-            Login with your Apple or Google account
+            Use your work email to log in to your team workspace
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -129,7 +129,7 @@ export function LoginForm({
                             <FormLabel>Password</FormLabel>
                             <Link
                               href="/forgot-password"
-                              className="ml-auto text-sm underline-offset-4 hover:underline"
+                              className="ml-auto text-sm underline-offset-4 hover:underline text-blue-600 hover:text-blue-400 transition-all duration-500"
                             >
                               Forgot your password?
                             </Link>
@@ -147,17 +147,18 @@ export function LoginForm({
                   {isLoading ? <Loader2 className="size-4 animate-spin" /> : "Login"}
                 </Button>
               </div>
-              <div className="text-center text-sm">
-                Don&apos;t have an account?{" "}
-                <Link href="/signup" className="underline underline-offset-4">
-                  Sign up
-                </Link>
-              </div>
             </div>
           </form>   
         </Form> 
         </CardContent>
       </Card>
+      <div className="text-center text-sm">
+        Don&apos;t have an account?{" "}
+        <Link href="/signup"  className="ml-4 text-sm underline-offset-4 hover:underline text-blue-600 hover:text-blue-400 transition-all duration-500">
+          Sign up
+        </Link>
+      </div>
+      
       <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
         By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
         and <a href="#">Privacy Policy</a>.
